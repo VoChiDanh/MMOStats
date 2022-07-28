@@ -1,0 +1,5 @@
+debug: false
+formula:
+  CUSTOM1: "%customplaceholder%"
+stats:
+  MAX_HEALTH: "%cf_CUSTOM1%"

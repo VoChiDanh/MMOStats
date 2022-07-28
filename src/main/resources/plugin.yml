@@ -1,0 +1,7 @@
+name: MMOStats
+version: '${project.version}'
+main: net.danh.mmostats.MMOStats
+api-version: 1.16
+authors: [ VoChiDanh ]
+commands:
+  mmostats:
