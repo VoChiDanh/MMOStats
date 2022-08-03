@@ -12,15 +12,6 @@ import static net.danh.mmostats.Manager.Debug.debug;
 
 public class PStats {
 
-    public static int getStatsFormula(Player p, String stats) {
-        String formula = Files.getConfig().getConfig().getString("formula." + stats);
-        if (formula != null) {
-            String papi = PlaceholderAPI.setPlaceholders(p, formula);
-            return (int) BigDecimal.valueOf(Long.parseLong(Calculator.calculator(papi, 0))).doubleValue();
-        }
-        return 0;
-    }
-
     public static int getStats(Player p, String stats) {
         String stats_formula = Files.getConfig().getConfig().getString("stats." + stats);
         debug("stats formula =" + stats_formula);
@@ -39,9 +30,12 @@ public class PStats {
                 debug("calculator double = " + calculator);
                 int calculator_int = (int) Double.parseDouble(calculator);
                 debug("calculator int = " + calculator_int);
-                BigDecimal bigDecimal = BigDecimal.valueOf(Long.parseLong(papi.replaceAll("#cf_" + formula + "#", String.valueOf(calculator_int))));
-                debug(String.valueOf(bigDecimal.intValue()));
-                return bigDecimal.intValue();
+                papi = papi.replaceAll("#cf_" + formula + "#", String.valueOf(calculator_int));
+                if (!papi.contains("#cf_")) {
+                    BigDecimal bigDecimal = BigDecimal.valueOf(Double.parseDouble(papi));
+                    debug(String.valueOf(bigDecimal.intValue()));
+                    return bigDecimal.intValue();
+                }
             }
         }
         return 0;
