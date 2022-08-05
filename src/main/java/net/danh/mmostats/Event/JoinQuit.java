@@ -4,7 +4,7 @@ import io.lumine.mythic.lib.api.player.EquipmentSlot;
 import io.lumine.mythic.lib.api.stat.modifier.StatModifier;
 import io.lumine.mythic.lib.player.modifier.ModifierSource;
 import io.lumine.mythic.lib.player.modifier.ModifierType;
-import net.Indyuce.mmocore.api.player.PlayerData;
+import net.Indyuce.mmoitems.api.player.PlayerData;
 import net.danh.mmostats.MMOStats;
 import net.danh.mmostats.Manager.PStats;
 import net.danh.mmostats.Resource.Files;
