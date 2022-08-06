@@ -19,7 +19,7 @@ import java.util.Objects;
 
 public class JoinQuit implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         for (String stats : Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("stats")).getKeys(false)) {
