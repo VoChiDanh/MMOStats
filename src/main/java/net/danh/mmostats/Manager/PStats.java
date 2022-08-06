@@ -31,6 +31,7 @@ public class PStats {
                 int calculator_int = (int) Double.parseDouble(calculator);
                 debug("calculator int = " + calculator_int);
                 papi = papi.replaceAll("#cf_" + formula + "#", String.valueOf(calculator_int));
+                papi = Calculator.calculator(papi, 0);
                 if (!papi.contains("#cf_")) {
                     BigDecimal bigDecimal = BigDecimal.valueOf(Double.parseDouble(papi));
                     debug(String.valueOf(bigDecimal.intValue()));

@@ -33,12 +33,18 @@ public final class MMOStats extends JavaPlugin {
         Files.getConfig().load();
         getServer().getPluginManager().registerEvents(new JoinQuit(), this);
         new CMD();
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            for (String stats : Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("stats")).getKeys(false)) {
+                new StatModifier(MMOStats.getInstance().getDescription().getName(), stats.toUpperCase(), PStats.getStats(p, stats), ModifierType.FLAT, EquipmentSlot.OTHER, ModifierSource.OTHER).register(PlayerData.get(p.getUniqueId()).getMMOPlayerData());
+                MMOStats.stats.put(p.getName() + "_" + stats, PStats.getStats(p, stats));
+            }
+        }
         new BukkitRunnable() {
             @Override
             public void run() {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     for (String stats : Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("stats")).getKeys(false)) {
-                        if (PStats.getStats(p, stats) != MMOStats.stats.get(p.getName() + "_" + stats)) {
+                        if (PStats.getStats(p, stats) != MMOStats.stats.getOrDefault(p.getName() + "_" + stats, 0)) {
                             new StatModifier(MMOStats.getInstance().getDescription().getName(), stats.toUpperCase(), MMOStats.stats.get(p.getName() + "_" + stats), ModifierType.FLAT, EquipmentSlot.OTHER, ModifierSource.OTHER).unregister(PlayerData.get(p.getUniqueId()).getMMOPlayerData());
                             new StatModifier(MMOStats.getInstance().getDescription().getName(), stats.toUpperCase(), PStats.getStats(p, stats), ModifierType.FLAT, EquipmentSlot.OTHER, ModifierSource.OTHER).register(PlayerData.get(p.getUniqueId()).getMMOPlayerData());
                             MMOStats.stats.put(p.getName() + "_" + stats, PStats.getStats(p, stats));
@@ -51,6 +57,15 @@ public final class MMOStats extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            for (String stats : Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("stats")).getKeys(false)) {
+                if (PStats.getStats(p, stats) != MMOStats.stats.getOrDefault(p.getName() + "_" + stats, 0)) {
+                    new StatModifier(MMOStats.getInstance().getDescription().getName(), stats.toUpperCase(), MMOStats.stats.get(p.getName() + "_" + stats), ModifierType.FLAT, EquipmentSlot.OTHER, ModifierSource.OTHER).unregister(PlayerData.get(p.getUniqueId()).getMMOPlayerData());
+                    new StatModifier(MMOStats.getInstance().getDescription().getName(), stats.toUpperCase(), PStats.getStats(p, stats), ModifierType.FLAT, EquipmentSlot.OTHER, ModifierSource.OTHER).register(PlayerData.get(p.getUniqueId()).getMMOPlayerData());
+                    MMOStats.stats.remove(p.getName() + "_" + stats, PStats.getStats(p, stats));
+                }
+            }
+        }
         Files.getConfig().save();
     }
 }
