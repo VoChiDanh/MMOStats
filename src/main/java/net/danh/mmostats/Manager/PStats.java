@@ -1,7 +1,13 @@
 package net.danh.mmostats.Manager;
 
+import io.lumine.mythic.lib.api.player.EquipmentSlot;
+import io.lumine.mythic.lib.api.stat.modifier.StatModifier;
+import io.lumine.mythic.lib.player.modifier.ModifierSource;
+import io.lumine.mythic.lib.player.modifier.ModifierType;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.Indyuce.mmoitems.api.player.PlayerData;
 import net.danh.dcore.Calculator.Calculator;
+import net.danh.mmostats.MMOStats;
 import net.danh.mmostats.Resource.Files;
 import org.bukkit.entity.Player;
 
@@ -11,6 +17,15 @@ import java.util.Objects;
 import static net.danh.mmostats.Manager.Debug.debug;
 
 public class PStats {
+
+    public static void updateStats(Player p) {
+        for (String stats : Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("stats")).getKeys(false)) {
+            if (getStats(p, stats) != MMOStats.stats.getOrDefault(p.getName() + "_" + stats, 0)) {
+                new StatModifier(MMOStats.getInstance().getDescription().getName(), stats.toUpperCase(), getStats(p, stats), ModifierType.FLAT, EquipmentSlot.OTHER, ModifierSource.OTHER).register(PlayerData.get(p.getUniqueId()).getMMOPlayerData());
+                MMOStats.stats.put(p.getName() + "_" + stats, getStats(p, stats));
+            }
+        }
+    }
 
     public static int getStats(Player p, String stats) {
         String stats_formula = Files.getConfig().getConfig().getString("stats." + stats);

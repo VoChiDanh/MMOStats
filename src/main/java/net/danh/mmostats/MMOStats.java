@@ -6,7 +6,6 @@ import io.lumine.mythic.lib.player.modifier.ModifierSource;
 import io.lumine.mythic.lib.player.modifier.ModifierType;
 import net.Indyuce.mmoitems.api.player.PlayerData;
 import net.danh.mmostats.CMD.CMD;
-import net.danh.mmostats.Event.JoinQuit;
 import net.danh.mmostats.Manager.PStats;
 import net.danh.mmostats.PlaceholderAPI.Placeholder;
 import net.danh.mmostats.Resource.Files;
@@ -32,29 +31,14 @@ public final class MMOStats extends JavaPlugin {
     public void onEnable() {
         instance = this;
         Files.getConfig().load();
-        getServer().getPluginManager().registerEvents(new JoinQuit(), this);
         new CMD();
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new Placeholder().register();
         }
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            for (String stats : Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("stats")).getKeys(false)) {
-                new StatModifier(MMOStats.getInstance().getDescription().getName(), stats.toUpperCase(), PStats.getStats(p, stats), ModifierType.FLAT, EquipmentSlot.OTHER, ModifierSource.OTHER).register(PlayerData.get(p.getUniqueId()).getMMOPlayerData());
-                MMOStats.stats.put(p.getName() + "_" + stats, PStats.getStats(p, stats));
-            }
-        }
         new BukkitRunnable() {
             @Override
             public void run() {
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    for (String stats : Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("stats")).getKeys(false)) {
-                        if (PStats.getStats(p, stats) != MMOStats.stats.getOrDefault(p.getName() + "_" + stats, 0)) {
-                            new StatModifier(MMOStats.getInstance().getDescription().getName(), stats.toUpperCase(), MMOStats.stats.get(p.getName() + "_" + stats), ModifierType.FLAT, EquipmentSlot.OTHER, ModifierSource.OTHER).unregister(PlayerData.get(p.getUniqueId()).getMMOPlayerData());
-                            new StatModifier(MMOStats.getInstance().getDescription().getName(), stats.toUpperCase(), PStats.getStats(p, stats), ModifierType.FLAT, EquipmentSlot.OTHER, ModifierSource.OTHER).register(PlayerData.get(p.getUniqueId()).getMMOPlayerData());
-                            MMOStats.stats.put(p.getName() + "_" + stats, PStats.getStats(p, stats));
-                        }
-                    }
-                }
+                getServer().getOnlinePlayers().forEach(PStats::updateStats);
             }
         }.runTaskTimer(MMOStats.getInstance(), 20L, 20L);
     }
