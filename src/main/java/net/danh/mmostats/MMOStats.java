@@ -12,7 +12,6 @@ import net.danh.mmostats.Resource.Files;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -35,12 +34,7 @@ public final class MMOStats extends JavaPlugin {
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new Placeholder().register();
         }
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                getServer().getOnlinePlayers().forEach(PStats::updateStats);
-            }
-        }.runTaskTimer(MMOStats.getInstance(), 20L, 20L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> getServer().getOnlinePlayers().forEach(PStats::updateStats), 20L, 20L);
     }
 
     @Override
