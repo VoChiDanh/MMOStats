@@ -13,18 +13,22 @@ import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Set;
 
 import static net.danh.mmostats.Manager.Debug.debug;
 
 public class PStats {
 
+    static Set<String> stats_file = Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("stats")).getKeys(false);
+    static Set<String> formula_file = Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("formula")).getKeys(false);
+
     public static void updateStats(Player p) {
-        for (String stats : Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("stats")).getKeys(false)) {
+        stats_file.forEach(stats -> {
             if (getStats(p, stats) != MMOStats.stats.getOrDefault(p.getName() + "_" + stats, 0)) {
                 new StatModifier(MMOStats.getInstance().getDescription().getName(), stats.toUpperCase(), getStats(p, stats), ModifierType.FLAT, EquipmentSlot.OTHER, ModifierSource.OTHER).register(PlayerData.get(p.getUniqueId()).getMMOPlayerData());
                 MMOStats.stats.put(p.getName() + "_" + stats, getStats(p, stats));
             }
-        }
+        });
     }
 
     public static int getStats(Player p, String stats) {
@@ -34,7 +38,7 @@ public class PStats {
         String papi = PlaceholderAPI.setPlaceholders(p, stats_formula);
         debug("papi =" + papi);
         if (papi.contains("#cf_")) {
-            for (String formula : Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("formula")).getKeys(false)) {
+            for (String formula : formula_file) {
                 debug("formula = " + formula);
                 String formula_string = Files.getConfig().getConfig().getString("formula." + formula);
                 debug("String formula = " + formula_string);
