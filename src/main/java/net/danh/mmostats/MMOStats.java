@@ -27,6 +27,8 @@ public final class MMOStats extends JavaPlugin {
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new Placeholder().register();
         }
+        PStats.updateStatsFile();
+        PStats.updateFormulaFile();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> getServer().getOnlinePlayers().forEach(PStats::updateStats), 20L, 20L);
     }
 

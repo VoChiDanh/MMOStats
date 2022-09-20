@@ -12,6 +12,7 @@ import net.danh.mmostats.Resource.Files;
 import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,8 +20,8 @@ import static net.danh.mmostats.Manager.Debug.debug;
 
 public class PStats {
 
-    static Set<String> stats_file = Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("stats")).getKeys(false);
-    static Set<String> formula_file = Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("formula")).getKeys(false);
+    public static Set<String> stats_file = new HashSet<>();
+    public static Set<String> formula_file = new HashSet<>();
 
     public static void updateStats(Player p) {
         stats_file.forEach(stats -> {
@@ -29,6 +30,20 @@ public class PStats {
                 MMOStats.stats.put(p.getName() + "_" + stats, getStats(p, stats));
             }
         });
+    }
+
+    public static void updateStatsFile() {
+        if (!stats_file.isEmpty()) {
+            stats_file.clear();
+        }
+        stats_file.addAll(Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("stats")).getKeys(false));
+    }
+
+    public static void updateFormulaFile() {
+        if (!formula_file.isEmpty()) {
+            formula_file.clear();
+        }
+        formula_file.addAll(Objects.requireNonNull(Files.getConfig().getConfig().getConfigurationSection("formula")).getKeys(false));
     }
 
     public static int getStats(Player p, String stats) {

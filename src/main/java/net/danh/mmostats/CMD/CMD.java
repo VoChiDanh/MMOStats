@@ -2,6 +2,7 @@ package net.danh.mmostats.CMD;
 
 import net.danh.dcore.Commands.CMDBase;
 import net.danh.mmostats.MMOStats;
+import net.danh.mmostats.Manager.PStats;
 import net.danh.mmostats.Resource.Files;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -25,6 +26,8 @@ public class CMD extends CMDBase {
                 if (args[0].equalsIgnoreCase("reload")) {
                     Files.getConfig().save();
                     Files.getConfig().load();
+                    PStats.updateStatsFile();
+                    PStats.updateFormulaFile();
                     net.danh.dcore.Utils.Player.sendPlayerMessage(p, "&aReloaded");
                 }
             }
@@ -37,6 +40,8 @@ public class CMD extends CMDBase {
             if (args[0].equalsIgnoreCase("reload")) {
                 Files.getConfig().save();
                 Files.getConfig().load();
+                PStats.updateStatsFile();
+                PStats.updateFormulaFile();
                 net.danh.dcore.Utils.Player.sendConsoleMessage(c, "&aReloaded");
             }
         }
