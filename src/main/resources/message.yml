@@ -1,0 +1,3 @@
+prefix: "&bMMOStats >>"
+message:
+  updated: "&aStats <name> data was updated to <amount>!"

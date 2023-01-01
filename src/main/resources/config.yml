@@ -1,7 +1,19 @@
 debug: false
 formula:
-  CUSTOM1: "%bcore_pcp%"
-  CUSTOM2: "%bcore_pcp% / 2"
+  CUSTOM1: '%bcore_pcp% / 50'
 stats:
-  MAX_HEALTH: "#cf_CUSTOM1#"
-  ATTACK_DAMAGE: "#cf_CUSTOM1# / 2"
+  MAX_HEALTH: '#cf_CUSTOM1# / 20'
+  PVE_DAMAGE: '#cf_CUSTOM1# / 40'
+  PVP_DAMAGE: '#cf_CUSTOM1# / 60'
+  ATTACK_DAMAGE: '#cf_CUSTOM1# / 80'
+  CRITICAL_STRIKE_CHANCE: '#cf_CUSTOM1# / 100'
+  CRITICAL_STRIKE_POWER: '#cf_CUSTOM1# / 200'
+  ARMOR: '#cf_CUSTOM1# / 300'
+name:
+  MAX_HEALTH: 'Max Health'
+  PVE_DAMAGE: 'PvE Damage'
+  PVP_DAMAGE: 'PvP Damage'
+  ATTACK_DAMAGE: 'Attack Damage'
+  CRITICAL_STRIKE_CHANCE: 'Critical Chance'
+  CRITICAL_STRIKE_POWER: 'Critical Power'
+  ARMOR: 'Armor'

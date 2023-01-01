@@ -1,12 +1,10 @@
 package net.danh.mmostats.CMD;
 
-import net.danh.dcore.Commands.CMDBase;
-import net.danh.mmostats.MMOStats;
+import net.danh.mmostats.API.CMD.CMDBase;
+import net.danh.mmostats.API.Utils.File;
 import net.danh.mmostats.Manager.PStats;
-import net.danh.mmostats.Resource.Files;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
@@ -16,33 +14,21 @@ import java.util.List;
 public class CMD extends CMDBase {
 
     public CMD() {
-        super(MMOStats.getInstance(), "mmostats");
+        super("mmostats");
     }
 
     @Override
-    public void playerexecute(Player p, String[] args) {
-        if (p.hasPermission("mmostats.admin")) {
+    public void execute(CommandSender c, String[] args) {
+        if (c.hasPermission("mmostats.admin")) {
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("reload")) {
-                    Files.getConfig().save();
-                    Files.getConfig().load();
+                    File.reloadFiles(c);
                     PStats.updateStatsFile();
                     PStats.updateFormulaFile();
-                    net.danh.dcore.Utils.Player.sendPlayerMessage(p, "&aReloaded");
                 }
-            }
-        }
-    }
-
-    @Override
-    public void consoleexecute(ConsoleCommandSender c, String[] args) {
-        if (args.length == 1) {
-            if (args[0].equalsIgnoreCase("reload")) {
-                Files.getConfig().save();
-                Files.getConfig().load();
-                PStats.updateStatsFile();
-                PStats.updateFormulaFile();
-                net.danh.dcore.Utils.Player.sendConsoleMessage(c, "&aReloaded");
+                if (args[0].equalsIgnoreCase("update")) {
+                    Bukkit.getOnlinePlayers().forEach(PStats::updateStats);
+                }
             }
         }
     }
@@ -54,6 +40,7 @@ public class CMD extends CMDBase {
         if (sender.hasPermission("mmostats.admin")) {
             if (args.length == 1) {
                 commands.add("reload");
+                commands.add("update");
                 StringUtil.copyPartialMatches(args[0], commands, completions);
             }
         }

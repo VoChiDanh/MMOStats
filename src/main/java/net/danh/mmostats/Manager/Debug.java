@@ -1,13 +1,15 @@
 package net.danh.mmostats.Manager;
 
-import net.danh.dcore.DCore;
-import net.danh.mmostats.Resource.Files;
+import net.danh.mmostats.API.Utils.File;
+import net.danh.mmostats.MMOStats;
+
+import java.util.logging.Level;
 
 public class Debug {
 
     public static void debug(String msg) {
-        if (Files.getConfig().getConfig().getBoolean("debug")) {
-            DCore.dCoreLog(msg);
+        if (File.getConfig().getBoolean("debug")) {
+            MMOStats.getInstance().getLogger().log(Level.WARNING, msg);
         }
     }
 }
