@@ -2,6 +2,7 @@ package net.danh.mmostats.CMD;
 
 import net.danh.mmostats.API.CMD.CMDBase;
 import net.danh.mmostats.API.Utils.File;
+import net.danh.mmostats.MMOStats;
 import net.danh.mmostats.Manager.PStats;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -27,11 +28,12 @@ public class CMD extends CMDBase {
                     PStats.updateFormulaFile();
                 }
                 if (args[0].equalsIgnoreCase("update")) {
-                    Bukkit.getOnlinePlayers().forEach(PStats::updateStats);
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(MMOStats.getInstance(), () -> Bukkit.getOnlinePlayers().forEach(PStats::updateStats), 20L);
                 }
             }
         }
     }
+
 
     @Override
     public List<String> TabComplete(CommandSender sender, String[] args) {
