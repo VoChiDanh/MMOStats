@@ -73,9 +73,9 @@ public class PStats {
                 debug("calculator int = " + calculator_int);
                 papi = papi.replaceAll("#cf_" + formula + "#", String.valueOf(calculator_int));
                 debug("papi = " + papi);
-                papi = Calculator.calculator(papi, 0);
-                debug("papi = " + papi);
                 if (!papi.contains("#cf_")) {
+                    papi = Calculator.calculator(papi, 0);
+                    debug("papi = " + papi);
                     BigDecimal bigDecimal = BigDecimal.valueOf(Double.parseDouble(papi));
                     debug("Decimal = " + bigDecimal);
                     debug(String.valueOf(bigDecimal.intValue()));
