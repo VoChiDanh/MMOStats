@@ -17,3 +17,6 @@ name:
   CRITICAL_STRIKE_CHANCE: 'Critical Chance'
   CRITICAL_STRIKE_POWER: 'Critical Power'
   ARMOR: 'Armor'
+settings:
+  time: 3600
+  message: false

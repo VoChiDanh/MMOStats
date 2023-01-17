@@ -1,5 +1,6 @@
 package net.danh.mmostats;
 
+import net.danh.mmostats.API.Utils.File;
 import net.danh.mmostats.CMD.CMD;
 import net.danh.mmostats.Manager.PStats;
 import net.danh.mmostats.PlaceholderAPI.Placeholder;
@@ -38,7 +39,7 @@ public final class MMOStats extends JavaPlugin {
         }
         PStats.updateStatsFile();
         PStats.updateFormulaFile();
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, () -> getServer().getOnlinePlayers().forEach(PStats::updateStats), 6000L, 6000L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, () -> getServer().getOnlinePlayers().forEach(PStats::updateStats), File.getConfig().getLong("settings.time"), File.getConfig().getLong("settings.time"));
     }
 
     @Override

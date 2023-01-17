@@ -30,13 +30,22 @@ public class PStats {
                 StatModifier statModifier = new StatModifier(MMOStats.getInstance().getDescription().getName(), stats.toUpperCase(), getStats(p, stats), ModifierType.FLAT, EquipmentSlot.OTHER, ModifierSource.OTHER);
                 statModifier.register(PlayerData.get(p.getUniqueId()).getMMOPlayerData());
                 MMOStats.stats.put(p.getName() + "_" + stats, getStats(p, stats));
-                Chat.sendPlayerMessage(p, File.getPrefix() + Objects.requireNonNull(File.getMessage().getString("message.updated")).replace("<name>", getStatsString(stats.toUpperCase())).replace("<amount>", String.valueOf(MMOStats.stats.get(p.getName() + "_" + stats))));
+                if (File.getConfig().getBoolean("settings.message")) {
+                    Chat.sendPlayerMessage(p, File.getPrefix() + Objects.requireNonNull(File.getMessage().getString("message.updated"))
+                            .replace("<name>", getStatsString(stats.toUpperCase()))
+                            .replace("<amount>", String.valueOf(MMOStats.stats.get(p.getName() + "_" + stats))));
+                }
             }
         });
     }
 
     private static String getStatsString(String stats) {
-        return File.getConfig().getString("name." + stats);
+        String s = File.getConfig().getString("name." + stats);
+        if (s == null) {
+            return stats;
+        } else {
+            return s;
+        }
     }
 
     public static void updateStatsFile() {
