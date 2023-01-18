@@ -6,6 +6,7 @@ import net.danh.mmostats.MMOStats;
 import net.danh.mmostats.Manager.PStats;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
@@ -29,6 +30,13 @@ public class CMD extends CMDBase {
                 }
                 if (args[0].equalsIgnoreCase("update")) {
                     Bukkit.getScheduler().scheduleSyncDelayedTask(MMOStats.getInstance(), () -> Bukkit.getOnlinePlayers().forEach(PStats::updateStats), 20L);
+                }
+            }
+            if (args.length == 2) {
+                if (args[0].equalsIgnoreCase("update")) {
+                    Player p = Bukkit.getPlayer(args[1]);
+                    if (p == null) return;
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(MMOStats.getInstance(), () -> PStats.updateStats(p), 20L);
                 }
             }
         }
