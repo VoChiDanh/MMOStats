@@ -10,16 +10,15 @@ public class File {
     }
 
     public static FileConfiguration getConfig() {
-        return MMOStats.getConfigurationHandler().file("", "config.yml");
+        return MMOStats.getConfigurationHandler().get("config.yml");
     }
 
     public static FileConfiguration getMessage() {
-        return MMOStats.getConfigurationHandler().file("", "message.yml");
+        return MMOStats.getConfigurationHandler().get("message.yml");
     }
 
     public static void reloadFiles(CommandSender c) {
-        MMOStats.getConfigurationHandler().reload("", "config.yml");
-        MMOStats.getConfigurationHandler().reload("", "message.yml");
+        MMOStats.getConfigurationHandler().reload("message.yml", "config.yml");
         Chat.sendCommandSenderMessage(c, getPrefix() + "&aReloaded");
     }
 }

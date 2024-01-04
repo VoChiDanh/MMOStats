@@ -4,9 +4,7 @@ import net.danh.mmostats.API.Utils.File;
 import net.danh.mmostats.CMD.CMD;
 import net.danh.mmostats.Manager.PStats;
 import net.danh.mmostats.PlaceholderAPI.Placeholder;
-import net.xconfig.bukkit.XConfigBukkit;
-import net.xconfig.bukkit.config.BukkitConfigurationModel;
-import net.xconfig.bukkit.impls.BukkitConfigurationModelImpl;
+import net.xconfig.bukkit.model.SimpleConfigurationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,22 +15,20 @@ public final class MMOStats extends JavaPlugin {
     public static final HashMap<String, Integer> stats = new HashMap<>();
 
     private static MMOStats instance;
-    private static BukkitConfigurationModelImpl configurationHandler;
 
     public static MMOStats getInstance() {
         return instance;
     }
 
-    public static BukkitConfigurationModel getConfigurationHandler() {
-        return configurationHandler;
+    public static SimpleConfigurationManager getConfigurationHandler() {
+        return SimpleConfigurationManager.get();
     }
 
     @Override
     public void onEnable() {
         instance = this;
-        configurationHandler = XConfigBukkit.manager(instance);
-        configurationHandler.build("", "config.yml");
-        configurationHandler.build("", "message.yml");
+        SimpleConfigurationManager.register(this);
+        SimpleConfigurationManager.get().build("", false, "config.yml", "message.yml");
         new CMD();
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new Placeholder().register();
@@ -44,6 +40,6 @@ public final class MMOStats extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        configurationHandler.save("", "config.yml");
+        SimpleConfigurationManager.get().save("config.yml", "message.yml");
     }
 }
