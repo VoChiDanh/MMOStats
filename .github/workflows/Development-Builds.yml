@@ -40,5 +40,5 @@ jobs:
           embed-footer-icon-url: "https://i.imgur.com/D5KVghH.png"
           embed-description: |
             ${{ github.event.head_commit.message }}
-            
-            [`📃 Download 📃`](https://nightly.link/${{github.repository}}/actions/runs/${{ github.run_id }}/%5B%23${{github.run_number}}%5D-MMOStats.zip)
+
+          filename: "./target/MMOStats.jar"
