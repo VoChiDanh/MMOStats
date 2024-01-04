@@ -1,7 +1,7 @@
 package net.danh.mmostats.CMD;
 
 import net.danh.mmostats.API.CMD.CMDBase;
-import net.danh.mmostats.API.Utils.File;
+import net.danh.mmostats.Utils.File;
 import net.danh.mmostats.MMOStats;
 import net.danh.mmostats.Manager.PStats;
 import org.bukkit.Bukkit;

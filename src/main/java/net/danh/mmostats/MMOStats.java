@@ -1,6 +1,6 @@
 package net.danh.mmostats;
 
-import net.danh.mmostats.API.Utils.File;
+import net.danh.mmostats.Utils.File;
 import net.danh.mmostats.CMD.CMD;
 import net.danh.mmostats.Manager.PStats;
 import net.danh.mmostats.PlaceholderAPI.Placeholder;

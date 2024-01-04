@@ -7,8 +7,8 @@ import io.lumine.mythic.lib.player.modifier.ModifierType;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.Indyuce.mmoitems.api.player.PlayerData;
 import net.danh.mmostats.API.Calculator.Calculator;
-import net.danh.mmostats.API.Utils.Chat;
-import net.danh.mmostats.API.Utils.File;
+import net.danh.mmostats.Utils.Chat;
+import net.danh.mmostats.Utils.File;
 import net.danh.mmostats.MMOStats;
 import org.bukkit.entity.Player;
 

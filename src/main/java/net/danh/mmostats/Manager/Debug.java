@@ -1,6 +1,6 @@
 package net.danh.mmostats.Manager;
 
-import net.danh.mmostats.API.Utils.File;
+import net.danh.mmostats.Utils.File;
 import net.danh.mmostats.MMOStats;
 
 import java.util.logging.Level;

@@ -1,4 +1,4 @@
-package net.danh.mmostats.API.Utils;
+package net.danh.mmostats.Utils;
 
 import net.danh.mmostats.MMOStats;
 import net.md_5.bungee.api.ChatMessageType;
